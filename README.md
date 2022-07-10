@@ -1,4 +1,4 @@
-# Project 1: Computer Vision Rock Paper Scissors
+# AiCore Project 1: Computer Vision Rock Paper Scissors
 
 Rock paper scissors game using ML computer vision. Current version accepts user input from keyboard only.
 
