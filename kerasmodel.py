@@ -1,3 +1,10 @@
+# Predict rock/paper/scissors from camera input from Keras model
+# 
+# 08/07/2022
+# Jon Pring
+# Source: AICore portal
+
+
 import cv2
 from keras.models import load_model
 import numpy as np
