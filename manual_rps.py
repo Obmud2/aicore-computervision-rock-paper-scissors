@@ -3,7 +3,7 @@ Rock paper scissors game
 """
 
 import random
-from enum import IntEnum
+from enum import IntEnum, Enum
 
 class Rps(IntEnum):
     """Storage of rps options"""
@@ -11,16 +11,24 @@ class Rps(IntEnum):
     PAPER = 2
     SCISSORS = 3
 
+class Player(Enum):
+    """Player types"""
+    USER = 1
+    COMPUTER = 2
+
 def get_winner(user_choice, computer_choice):
     """Selects the winner based on user choice and computer choice, and returns a string"""
-    if (user_choice == computer_choice):
-        return "Draw"
+    if user_choice == computer_choice:
+        print("Draw")
+        return None
     elif (user_choice - computer_choice) % len(Rps) == 1:
-        return "You win!"
+        print("You win!")
+        return Player.USER
     elif (computer_choice - user_choice) % len(Rps) == 1:
-        return "Computer wins!"
+        print("Computer wins!")
+        return Player.COMPUTER
     else:
-        return "Not found"
+        return None
 
 def get_computer_choice():
     """Choses a random selection from rock paper scissors and returns an enum"""
@@ -46,4 +54,4 @@ def play():
     user_choice = get_user_choice()
     computer_choice = get_computer_choice()
     print(f"You have selected {user_choice.name}. Computer has selected {computer_choice.name}.")
-    print(get_winner(user_choice, computer_choice))
+    get_winner(user_choice, computer_choice)
