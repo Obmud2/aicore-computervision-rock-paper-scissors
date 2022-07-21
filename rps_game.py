@@ -96,8 +96,8 @@ class Rps_game():
         else:
             return None
     def __add_score(self, winner):
-        """Add score to game total and check for overall winner. Returns True if
-        maximum score is reached."""
+        """Add score to game total and check for overall winner. Returns True
+        and resets scores if maximum score is reached."""
         # Add score
         if winner == self.Player.USER:
             self.user_wins += 1
@@ -108,9 +108,13 @@ class Rps_game():
         # Check for winner
         if self.user_wins == self.max_wins:
             print("Congratulations, you win!")
+            self.user_wins = 0
+            self.computer_wins = 0
             return True
         elif self.computer_wins == self.max_wins:
             print("Game over, you lose")
+            self.user_wins = 0
+            self.computer_wins = 0
             return True
         else:
             return False
