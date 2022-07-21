@@ -115,17 +115,14 @@ class Rps_game():
         else:
             return False
 
-    # Not very happy with the structure of this - feel like this should call a 
-    # "round", but this means the model and camera need to be reinitialised each
-    # round?
     def play_ml(self):
+        """Play rps using ml keras model for user input"""
         # Keras model
         model = load_model('KerasModel/keras_model.h5')
 
         # Load camera
         cap = cv2.VideoCapture(0)
 
-        counter = self.countdown_duration
         ready = False
 
         while True:
@@ -142,9 +139,10 @@ class Rps_game():
             # Use 's' key to start round
             if cv2.waitKey(1) & 0xFF == ord('s'):
                 ready = True
+                counter = self.countdown_duration
                 init_time = time()
-                continue
 
+            # Play round when counter hits 0
             if ready and counter <= 0:
                 ready = False
                 user_choice = self.__get_user_choice_prediction(frame, model)
