@@ -34,7 +34,7 @@ def get_computer_choice():
     """Choses a random selection from rock paper scissors and returns an enum"""
     return Rps(random.randint(1,3))
 
-def get_user_choice():
+def get_user_choice_manual():
     """Asks user for input from rock paper scissors, or r p s, and returns an enum"""
     while True:
         print("Rock, paper or scissors?")
