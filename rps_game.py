@@ -29,6 +29,11 @@ class Rps_game():
     def __get_winner(self, user_choice, computer_choice):
         """Selects the winner based on user choice and computer choice,
         and returns a string"""
+        if user_choice == None or computer_choice == None:
+            print("No choice selected")
+            return None
+
+        print(f"You have selected {user_choice.name}. Computer has selected {computer_choice.name}.")     
         if user_choice == computer_choice:
             print("Draw")
             return None
@@ -49,13 +54,13 @@ class Rps_game():
         an enum"""
         while True:
             print("Rock, paper or scissors?")
-            self.user_choice = input()
-            self.user_choice.lower()
-            if self.user_choice in ("r", "rock"):
+            user_choice = input()
+            user_choice.lower()
+            if user_choice in ("r", "rock"):
                 return self.Rps.ROCK
-            elif self.user_choice in ("p", "paper"):
+            elif user_choice in ("p", "paper"):
                 return self.Rps.PAPER
-            elif self.user_choice in ("s", "scissors"):
+            elif user_choice in ("s", "scissors"):
                 return self.Rps.SCISSORS
             else:
                 print("Wrong input, try again.")
@@ -90,6 +95,25 @@ class Rps_game():
             return self.Rps.SCISSORS
         else:
             return None
+    def __add_score(self, winner):
+        """Add score to game total and check for overall winner. Returns True if
+        maximum score is reached."""
+        # Add score
+        if winner == self.Player.USER:
+            self.user_wins += 1
+        elif winner == self.Player.COMPUTER:
+            self.computer_wins += 1
+        print(f"User: {self.user_wins}, Computer: {self.computer_wins}")
+        
+        # Check for winner
+        if self.user_wins == self.max_wins:
+            print("Congratulations, you win!")
+            return True
+        elif self.computer_wins == self.max_wins:
+            print("Game over, you lose")
+            return True
+        else:
+            return False
 
     # Not very happy with the structure of this - feel like this should call a 
     # "round", but this means the model and camera need to be reinitialised each
@@ -122,36 +146,23 @@ class Rps_game():
                 continue
 
             if ready and counter <= 0:
+                ready = False
                 user_choice = self.__get_user_choice_prediction(frame, model)
                 computer_choice = self.__get_computer_choice()
-
-                if user_choice is None:
-                    print("Failed prediction, try again")
-                    winner = None
-                else:
-                    print(f"You have selected {user_choice.name}. Computer has selected {computer_choice.name}.")
-                    winner = self.__get_winner(user_choice, computer_choice)
-
-                if winner == self.Player.USER:
-                    self.user_wins += 1
-                elif winner == self.Player.COMPUTER:
-                    self.computer_wins += 1
-
-                print(f"User: {self.user_wins}, Computer: {self.computer_wins}")
-
-                ready = False
-
-            if self.user_wins == self.max_wins:
-                print("Congrats, you win!")
-                break
-            elif self.computer_wins == self.max_wins:
-                print("Game over, you lose")
-                break
+                winner = self.__get_winner(user_choice, computer_choice)
+                if self.__add_score(winner):
+                    break #if maximum score is reached
 
         # After the loop release the cap object
         cap.release()
         # Destroy all the windows
         cv2.destroyAllWindows()
 
-
-    #def play_manual(self):
+    def play_manual(self):
+        """Play rps based on user input"""
+        while True:
+            user_choice = self.__get_user_choice_manual()
+            computer_choice = self.__get_computer_choice()
+            winner = self.__get_winner(user_choice, computer_choice)
+            if self.__add_score(winner):
+                break #if maximum score is reached
