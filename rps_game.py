@@ -1,13 +1,13 @@
 import random
-import numpy as np
 import math
-import cv2
-from time import time, sleep
-from PIL import Image, ImageDraw
-from keras.models import load_model
+from time import time
 from enum import IntEnum, Enum
+from keras.models import load_model
+import cv2
+import numpy as np
 
-class Rps_game():
+class RpsGame():
+    """Module for RPS game initialisation"""
     def __init__(self):
         # Game variables
         self.user_wins = 0
@@ -128,9 +128,10 @@ class Rps_game():
         cap = cv2.VideoCapture(0)
 
         ready = False
+        init_time = None
 
         while True:
-            ret, frame = cap.read()
+            frame = cap.read()[1]
 
             if ready:
                 cv2.putText(img=frame, text=str(math.ceil(counter)), org=(150, 250), fontFace=cv2.FONT_HERSHEY_TRIPLEX, fontScale=6, color=(0, 255, 0),thickness=3)
