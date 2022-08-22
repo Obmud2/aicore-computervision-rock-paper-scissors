@@ -2,7 +2,7 @@ import random
 import numpy as np
 import math
 import cv2
-from time import time
+from time import time, sleep
 from PIL import Image, ImageDraw
 from keras.models import load_model
 from enum import IntEnum, Enum
